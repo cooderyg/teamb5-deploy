@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, jsonify
-app = Flask(__name__) 
+application = app = Flask(__name__) 
 
 from pymongo import MongoClient
 client = MongoClient('mongodb+srv://sparta:test@cluster0.jy74xj7.mongodb.net/?retryWrites=true&w=majority')
@@ -65,3 +65,5 @@ def guestbook_post():
     db.guestbook.insert_one(doc)
     return jsonify({'msg': '저장 완료!'})
 
+if __name__ == '__main__':
+    app.run()

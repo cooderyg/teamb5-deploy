@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, url_for, redirect
 application = app = Flask(__name__) 
 
 from pymongo import MongoClient
@@ -8,7 +8,7 @@ db = client.dbsparta
 #메인페이지 렌더링
 @app.route('/')
 def home():
-    return render_template('index.html')
+    return render_template('index.html', )
 
 #서브페이지 렌더링
 @app.route('/members/<membername>')

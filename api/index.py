@@ -5,18 +5,17 @@ from pymongo import MongoClient
 client = MongoClient('mongodb+srv://sparta:test@cluster0.jy74xj7.mongodb.net/?retryWrites=true&w=majority')
 db = client.dbsparta
 
+#메인페이지 렌더링
 @app.route('/')
 def home():
     return render_template('index.html')
 
+#서브페이지 렌더링
 @app.route('/members/<membername>')
 def get_membername(membername):
     return render_template(f'/members/{membername}.html')
 
-@app.route('/guestbook')
-def guestbook():
-    return render_template('guestbook.html')
-
+#메인페이지 팀원 POST
 @app.route("/members", methods=["POST"])
 def member_post():
     name_receive = request.form['name_give']
@@ -33,14 +32,35 @@ def member_post():
     db.member.insert_one(doc)
     return jsonify({'msg': '저장 완료!'})
 
-@app.route("/guestbook", methods=["POST"])
+#메인페이지 하단 멤버카드 GET
+@app.route("/members", methods=["GET"])
+def members_get():
+    all_members = list(db.member.find({},{'_id':False}))
+    return jsonify({'result': all_members})
+
+#서브페이지 상단 프로필 GET
+@app.route("/profile/<membername>", methods=["GET"])
+def profile_get(membername):
+    profile = db.member.find_one({"member":membername},{'_id':False})
+    return jsonify({'result': profile})
+
+#서브페이지 하단 방명록 GET
+@app.route("/guestbooks/<membername>", methods=["GET"])
+def guestbooks_get(membername):
+    all_guestbooks = list(db.guestbook.find({"member":membername},{'_id':False}))
+    return jsonify({'result': all_guestbooks})
+
+#서브페이지 방명록 POST
+@app.route("/guestbooks", methods=["POST"])
 def guestbook_post():
     name_receive = request.form['name_give']
     comment_receive = request.form['comment_give']
+    member_receive = request.form['member_give']
 
     doc = {
         'name' : name_receive,
-        'comment' : comment_receive
+        'comment' : comment_receive,
+        'member' : member_receive
     }
     db.guestbook.insert_one(doc)
     return jsonify({'msg': '저장 완료!'})

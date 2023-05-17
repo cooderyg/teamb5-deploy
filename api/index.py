@@ -1,6 +1,9 @@
 from flask import Flask, render_template, request, jsonify
 application = app = Flask(__name__) 
 
+from bson.json_util import dumps
+from bson.objectid import ObjectId
+
 from pymongo import MongoClient
 client = MongoClient('mongodb+srv://sparta:test@cluster0.jy74xj7.mongodb.net/?retryWrites=true&w=majority')
 db = client.dbsparta
@@ -35,13 +38,13 @@ def member_post():
 #메인페이지 하단 멤버카드 GET
 @app.route("/members", methods=["GET"])
 def members_get():
-    all_members = list(db.member.find({}, {'_id':False}))
-    return jsonify({'result': all_members})
+    all_members = list(db.member.find({}))
+    return dumps({'result': all_members})
 
 #메인페이지 하단 멤버카드 DELETE
-@app.route("/members/<membername>", methods=["DELETE"])
-def members_delete(membername):
-    db.member.delete_one({'name':membername})
+@app.route("/members/<memberid>", methods=["DELETE"])
+def members_delete(memberid):
+    db.member.delete_one({'_id':ObjectId(memberid)})
     return jsonify({'msg': '삭제완료'})
 
 #서브페이지 상단 프로필 GET

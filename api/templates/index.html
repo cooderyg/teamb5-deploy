@@ -74,11 +74,7 @@
           fetch("/members")
             .then((res) => res.json())
             .then((data) => {
-              console.log(data.result)
               let rows = data.result
-              const arr = [];
-              rows.map(row => console.log(row._id))
-              
               $("#profiles").empty();
               $("#profiles").append(
                 rows.map(

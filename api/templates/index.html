@@ -85,7 +85,7 @@
                         <p><span>이름: ${row.name}</span><span>mbti: ${row.mbti}</span></p>
                         <p>장점: ${row.advantage}</p>
                         <p>협업스타일: ${row.style}</p>
-                        <button onclick="delete_profile(${row.name})" type="submit" class="btn btn-primary">삭제하기</button>
+                        <button onclick="delete_profile('${row.name}')" type="submit" class="btn btn-primary">삭제하기</button>
                     </li>
                   `
                 )
@@ -95,7 +95,7 @@
         }
 
         function delete_profile(name) {
-          const data = String(name)
+         
           fetch(`/members/${name}`, { method: "DELETE"})
           .then((res) => res.json())
           .then((data) => {
@@ -177,7 +177,7 @@
                     </div>
                 </div>
                 <div class="btn-container">
-                    <button onclick="save_profile()" class="btn btn-primary">등록하기</button>
+                    <button onclick="save_profile()" type="submit" class="btn btn-primary">등록하기</button>
                 </div>
             </div>
         </section>

@@ -13,7 +13,7 @@
       crossorigin="anonymous"
     />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-   
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
     <title>오쪼라구</title>
     <style>
         /* 공통 */
@@ -29,6 +29,8 @@
 
         .content {display: flex;  justify-content: space-between; margin: 60px auto 0}
         .form{margin-top: 50px;}
+        .image-container {max-width: 500px;}
+        .image-container img {width: 100%; display: block;}
       
         .btn-container {display: flex; justify-content: center; margin-bottom: 50px;}
         .btn-container  button {width: 240px; height: 48px;}
@@ -142,11 +144,11 @@
     </header>
     <main>
         <section class="content wrap">
-            <div>
-                <img src="https://noonnu.cc/assets/noon-0e36f3deb9d903ceec1946f9253c7dea1cd629ef8e2f1fc14ec2995aa7421b69.jpg" alt="">
-            </div>
-            <ul id="profile">
-            </ul>
+          <div class="image-container">
+            <lottie-player src="https://assets1.lottiefiles.com/private_files/lf30_WdTEui.json" background="transparent"  speed="1"  style="width: 300px; height: 300px;" loop autoplay></lottie-player>
+           </div>
+          <ul id="profile">
+          </ul>
         </section>
         <section class="form wrap">
             <h2>방명록</h2>

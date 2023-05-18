@@ -18,12 +18,12 @@ def home():
 def get_membername(membername):
     return render_template(f'/members/{membername}.html')
 
-#member edit 페이지 랜더링
+#member EDIT 페이지 랜더링
 @app.route('/members/edit/<memberid>')
 def member_render(memberid):
     return render_template('/members/edit.html', memberid=memberid)
 
-#guestbook edit 페이지 랜더링
+#guestbook EDIT 페이지 랜더링
 @app.route('/guestbooks/<membername>/edit/<guestbookid>')
 def guestbook_render(guestbookid, membername):
     return render_template('/guestbooks/edit.html', membername=membername, guestbookid=guestbookid)
@@ -57,13 +57,13 @@ def members_delete(memberid):
     db.member.delete_one({'_id':ObjectId(memberid)})
     return jsonify({'msg': '삭제완료'})
 
-#메인수정페이지 GET
+#메인EDIT페이지 GET
 @app.route("/member/<memberid>", methods=["GET"])
 def member_get(memberid):
     member = db.member.find_one({'_id':ObjectId(memberid)},{'_id':False})
     return jsonify({'result': member})
 
-#메인수정페이지 PUT
+#메인EDIT페이지 PUT
 @app.route("/member/<memberid>", methods=["PUT"])
 def member_put(memberid):
     name_receive = request.form['name_give']
@@ -112,13 +112,13 @@ def guestbooks_delete(guestbookid):
     db.guestbook.delete_one({'_id':ObjectId(guestbookid)})
     return jsonify({'msg': '삭제완료'})
 
-#서브수정페이지 GET
+#서브EDIT페이지 GET
 @app.route("/guestbook/<guestbookid>", methods=["GET"])
 def guestbook_get(guestbookid):
     gusetbook = db.guestbook.find_one({'_id':ObjectId(guestbookid)},{'_id':False})
     return jsonify({'result': gusetbook})
 
-#서브수정페이지 PUT
+#서브EDIT페이지 PUT
 @app.route("/guestbook/<guestbookid>", methods=["PUT"])
 def guestbook_put(guestbookid):
     name_receive = request.form['name_give']

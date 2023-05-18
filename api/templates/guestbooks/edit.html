@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=East+Sea+Dokdo&family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+   
+    <title>오쪼라구</title>
+    <style>
+        /* 공통 */
+        *{ list-style: none; margin: 0; padding: 0; font-family: 'Noto Sans KR', sans-serif !important;} 
+        a {text-decoration: none;}
+        .wrap {max-width: 1400px; margin: 50px auto 0; padding: 0 20px;}
+
+        .content {display: flex;  justify-content: space-between;margin: 60px 0; }
+        
+      
+        .btn-container {display: flex; justify-content: center; margin-bottom: 50px;}
+        .btn-container  button {width: 240px; height: 48px;}
+    </style>
+    <script>
+         $(document).ready(function () {
+            show_value();
+        });
+        function show_value() {
+            fetch("/guestbook/{{guestbookid}}")
+            .then((res) => res.json())
+            .then((data) => {
+              console.log(data.result)
+              $('#inputName').val(data.result.name)
+              $('#inputComment').val(data.result.comment)
+            });
+        }
+        function edit_profile() {
+          let name = $("#inputName").val();
+          let comment = $("#inputComment").val();
+  
+          let formData = new FormData();
+          formData.append("name_give", name);
+          formData.append("comment_give", comment);
+  
+          fetch("/guestbook/{{guestbookid}}", { method: "PUT", body: formData })
+          .then((res) => res.json())
+          .then((data) => {
+            alert(data["msg"]);
+            window.location.replace('/members/{{membername}}');
+          });
+        }
+      </script>
+</head>
+<body>
+    <main>
+      <section class="wrap">
+            <h2>댓글수정</h2>
+            <div>
+                <div class="row mb-3">
+                    <label for="inputName" class="col-sm-2 col-form-label" >이름</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" id="inputName" placeholder="이름을 작성해주세요!">
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <label for="inputComment" class="col-sm-2 col-form-label" >방명록</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" id="inputComment" placeholder="댓글을 남겨주세요!">
+                    </div>
+                </div>
+                <div class="btn-container">
+                    <button onclick="edit_profile()" type="submit" class="btn btn-primary">수정하기</button>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

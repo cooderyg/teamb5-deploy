@@ -16,8 +16,8 @@
    
     <title>오쪼라구</title>
     <style>
-       /* 공통 */
-       *{ list-style: none; margin: 0; padding: 0; font-family: 'Noto Sans KR', sans-serif !important;} 
+        /* 공통 */
+          *{ list-style: none; margin: 0; padding: 0; font-family: 'Noto Sans KR', sans-serif !important;} 
         a {text-decoration: none;}
         .wrap {max-width: 1400px; margin: 0 auto; padding: 0 20px;}
         /* header */
@@ -27,19 +27,18 @@
         .header ul.links {display: flex; gap: 32px; margin: 0;}
         .header .links li > a {padding: 12px 16px; display: block; font-size: 20px;}
 
-        .content {display: flex;  justify-content: space-between;margin: 60px 0; }
-        
+        .content {display: flex;  justify-content: space-between; margin: 60px auto 0}
+        .form{margin-top: 50px;}
       
         .btn-container {display: flex; justify-content: center; margin-bottom: 50px;}
         .btn-container  button {width: 240px; height: 48px;}
         
-
-        .guestbook__title {margin: 0 0 16px 20px;}
-        #guestbooks {margin-right: 32px;}
-
-        .guestbook {color: #64748b; font-weight: bold; padding: 10px 20px; border-radius: 10px; background-color: rgb(241 245 249); margin-bottom: 20px;}
-        .guestbook > p:first-child {font-size: 20px;}
-        .guestbook > p:nth-child(2) {font-size: 12px;}
+        #guestbooks {padding: 0;}
+        .guestbook {color: #64748b; font-weight: bold; padding: 30px 20px; border-radius: 10px; background-color: rgb(241 245 249); margin-bottom: 20px;}
+        .guestbook > p:first-child > span:first-child {margin-right: 10px;}
+        .guestbook > p:last-child {margin: 0;}
+        .guestbook button + a {background-color: #7395c5; color: #fff; padding: 7px 13px; line-height: 1.5; border-radius: 3px; display: inline-block; font-weight: 400; transition: ease-in-out 0.15s; text-align: center; text-decoration: none; vertical-align: middle;}
+        .guestbook button + a:hover {background-color: #365279;}
         
     </style>
     <script>
@@ -79,6 +78,8 @@
                     <li class="guestbook">
                         <p>${row.comment}</p>
                         <p>작성자: ${row.name}</p>
+                        <button onclick="delete_guestbook(this)" data-id="${row._id.$oid}" type="submit" class="btn btn-primary">삭제하기</button>
+                        <a href="/guestbooks/shim/edit/${row._id.$oid}">수정하기</a>
                    </li>
                   `
                 )
@@ -93,7 +94,7 @@
               let profile = data.result;
               $("#profile").append(
                 `
-                    <li>
+                <li>
                         <h4>이름</h4>
                         <p>${profile.name}</p>
                     </li>
@@ -108,13 +109,21 @@
                     <li>
                         <h4>협업스타일</h4>
                         <p>${profile.style}</p>
-                    </li>
-                  `
+                </li>
+                `
               );
             });
         }
 
-        
+        function delete_guestbook(id) {
+          let oid = id.getAttribute('data-id')
+          fetch(`/guestbooks/${oid}`, { method: "DELETE"})
+          .then((res) => res.json())
+          .then((data) => {
+            alert(data["msg"]);
+            window.location.reload();
+          });
+        }
 
       </script>
 </head>
@@ -139,7 +148,7 @@
             <ul id="profile">
             </ul>
         </section>
-        <section class="wrap">
+        <section class="form wrap">
             <h2>방명록</h2>
             <div>
                 <div class="row mb-3">
@@ -160,7 +169,7 @@
             </div>
         </section>
         <section>
-            <div>
+            <div class="wrap">
                 <ul id="guestbooks">
                     <!-- 방명록 삽입 -->
                 </ul>

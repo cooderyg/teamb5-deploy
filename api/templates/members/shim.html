@@ -94,7 +94,7 @@
           fetch("/profile/shim")
             .then((res) => res.json())
             .then((data) => {
-              let profile = data.result;
+              let profile = data.result.reverse();
               $("#profile").append(
                 `
                 <li>
